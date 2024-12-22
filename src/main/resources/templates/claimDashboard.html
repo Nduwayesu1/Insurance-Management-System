@@ -1,0 +1,187 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Claims Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 80px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Table Styling */
+        table {
+            width: 80%;
+            margin-top: 100px;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        table a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Messages */
+        .message, .error-message {
+            margin: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .message {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            table {
+                width: 95%;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                margin: 5px 0;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table th, table td {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            table a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Contact</a>
+    <a href="#">Service</a>
+    <a href="#">Claims</a>
+    <a th:href="@{/logout}">logout</a>
+    <!-- Add other navigation links -->
+</nav>
+
+<h1>Claims Dashboard</h1>
+
+<!-- Display success or error messages -->
+<div th:if="${message}" class="message" th:text="${message}"></div>
+<div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Claim ID</th>
+        <th>User</th>
+        <th>Policy</th>
+        <th>Claim Amount</th>
+        <th>Status</th>
+        <th>Remarks</th>
+        <th>Claim Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="claim : ${claims}">
+        <td th:text="${claim.claimId}"></td>
+        <td th:text="${claim.user.name}"></td>
+        <td th:text="${claim.policy.policyName}"></td>
+        <td th:text="${claim.claimAmount}"></td>
+        <td th:text="${claim.status}"></td>
+        <td th:text="${claim.remarks}"></td>
+        <td th:text="${claim.claimDate}"></td>
+        <td>
+            <!-- Add links or buttons to approve or reject the claim -->
+            <a th:href="@{/claims/updateStatus/{claimId}(claimId=${claim.claimId}, status='APPROVED')}">Accept</a>
+            <a th:href="@{/claims/updateStatus/{claimId}(claimId=${claim.claimId}, status='REJECTED')}">Reject</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

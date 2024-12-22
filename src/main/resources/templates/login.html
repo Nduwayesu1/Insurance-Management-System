@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Login page for the Insurance Management System.">
+  <title>Insurance Management System - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+
+    /* Navigation Bar Styles */
+    nav {
+      background-color: #2c3e50;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      flex-direction: column;
+      width: 30px;
+      height: 20px;
+      justify-content: space-between;
+    }
+
+    .hamburger div {
+      background-color: white;
+      height: 4px;
+      width: 100%;
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: #34495e;
+    }
+
+    /* Login Form Container */
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+    }
+
+    .login-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-container h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .welcome-message p {
+      font-size: 16px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    /* Form Inputs */
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #2c3e50;
+    }
+
+    /* Submit Button */
+    .btn {
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: #34495e;
+    }
+
+    /* Error Message */
+    .error-message {
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    /* Register Link */
+    .register-link {
+      margin-top: 20px;
+    }
+
+    .register-link a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+        background-color: #2c3e50;
+        border-bottom: 1px solid #34495e;
+      }
+
+      .nav-links a:hover {
+        background-color: #34495e;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+  <h2>Insurance Management System</h2>
+  <div class="hamburger" onclick="toggleNav()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </div>
+</nav>
+
+<main>
+  <!-- Login Form Container -->
+  <div class="login-container">
+    <h1>Welcome</h1>
+
+    <!-- Error Message for invalid login -->
+    <div th:if="${param.error}" class="error-message">
+      <span th:text="${param.errorMessage}">Invalid credentials. Please try again.</span>
+    </div>
+
+    <!-- Login Form -->
+    <form th:action="@{/post-login}" method="POST" th:object="${user}">
+
+      <!-- Email Input -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" th:field="*{email}" required placeholder="Enter your email">
+      </div>
+
+      <!-- Password Input -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" th:field="*{password}" required placeholder="Enter your password">
+      </div>
+
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" th:field="*{role}" required>
+          <option value="" disabled selected>Select your role</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="CUSTOMER">CUSTOMER</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <!-- Register Link -->
+    <div class="register-link">
+      <p>Don't have an account? <a th:href="@{/users/register}">Register here</a></p>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2024 Insurance Management System. All rights reserved.</p>
+</footer>
+
+<script>
+  // Function to toggle the navigation menu on mobile
+  function toggleNav() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

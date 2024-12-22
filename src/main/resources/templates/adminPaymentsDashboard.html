@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Payment Dashboard</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+    }
+
+    .dashboard-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    header {
+        background-color: #4CAF50;  /* Changed from blue to green */
+        color: white;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid transparent;
+    }
+
+    .navbar a:hover {
+        border: 1px solid white;
+        border-radius: 5px;
+    }
+
+    .content {
+        display: flex;
+        flex: 1;
+    }
+
+    .sidebar {
+        background-color: #2c3e50;
+        color: white;
+        width: 200px;
+        padding: 1rem;
+    }
+
+    .sidebar a.button {
+        display: block;
+        background-color: #4CAF50; /* Changed from blue to green */
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        text-align: left;
+        width: 100%;
+        margin: 0.5rem 0;
+        cursor: pointer;
+    }
+
+    .sidebar a.button:hover {
+        background-color: #45a049; /* Slightly darker green */
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    h2 {
+        margin-bottom: 20px; /* Add space below the welcome message */
+    }
+
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 2rem;
+        background-color: #000000;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 10px;
+    }
+
+    th {
+        background-color: #4CAF50; /* Changed from blue to green */
+        color: white;
+    }
+
+    td {
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+        background-color: #ddd;
+    }
+
+    footer {
+        background-color: #4CAF50; /* Changed from blue to green */
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard-container">
+  <header>
+    <h1>Admin Payment Dashboard</h1>
+    <div class="navbar">
+      <a href="javascript:void(0);">Home</a>
+      <a href="javascript:void(0);">About </a>
+      <a href="javascript:void(0);">Service</a>
+      <a href="javascript:void(0);">Contact</a>
+    </div>
+  </header>
+
+  <div class="content">
+    <nav class="sidebar">
+      <a th:href="@{/payments/make}" class="button"> Add Payments</a>
+      <a th:href="@{/policy/register}" class="button">Create Policies</a>
+      <a th:href="@{/users/register}" class="button">Create User's Account</a>
+      <a th:href="@{/users/usersList}" class="button">View User's</a>
+      <a th:href="@{#}" class="button">Claims Dashboard</a>
+      <a th:href="@{/logout}" class="button">logout</a>
+    </nav>
+
+    <main class="main-content">
+      <h2>Payment Records</h2>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Amount Paid</th>
+          <th>Payment ID</th>
+          <th>Policy ID</th>
+          <th>User ID</th>
+          <th>Due Date</th>
+          <th>Payment Date</th>
+          <th>Receipt Number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="payment : ${payments}">
+          <td th:text="${payment.amountPaid}"></td>
+          <td th:text="${payment.paymentId}"></td>
+          <td th:text="${payment.policy.policyId}"></td>
+          <td th:text="${payment.user.userId}"></td>
+          <td th:text="${payment.dueDate}"></td>
+          <td th:text="${payment.paymentDate}"></td>
+          <td th:text="${payment.receiptNumber}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Insurance Management System. All rights reserved.</p>
+  </footer>
+</div>
+</body>
+</html>
